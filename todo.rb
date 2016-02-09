@@ -1,3 +1,27 @@
+# Modules
+module Menu
+	def menu
+		puts "Please choose from the following list:
+	(A) Add a task
+	(S) Show your ToDo list
+	(Q) Quit
+		"
+	end
+
+	def show
+		menu
+	end
+end
+
+module Promptable
+	def prompt(text = 'What would you like to do?', symbol = ":>")
+		print "#{text} #{symbol} "
+		gets.chomp.downcase
+	end
+
+end
+
+
 # Classes
 class List
 
@@ -44,11 +68,28 @@ end
 
 #actions
 if __FILE__ == $PROGRAM_NAME
+
+	include Menu
+	include Promptable
+
 	my_list = List.new
-	puts 'You have created a new list'
 
-	my_list.add_task(Task.new("Go to work."))
-	puts 'You have added a new task'
+	user_input = ""
 
-	my_list.show_list
+	menu
+
+	until (user_input = prompt) == 'q' do
+
+		case user_input
+			when 'a'
+				my_list.add_task(Task.new(prompt('What is the task you would like to add?')))
+			when 's'
+ 				my_list.show_list
+			else
+				puts "Sorry I don't know that option"
+		end
+	end
+
+
+	puts 'Outro - Thanks for using the menu system!'
 end
