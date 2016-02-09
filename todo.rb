@@ -12,6 +12,7 @@ class List
 	end
 
 	def show_list
+		@all_tasks.each { |task| puts task.description }
 	end
 
 	def read_tast_from_file
@@ -48,4 +49,6 @@ if __FILE__ == $PROGRAM_NAME
 
 	my_list.add_task(Task.new("Go to work."))
 	puts 'You have added a new task'
+
+	my_list.show_list
 end
