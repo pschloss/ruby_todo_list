@@ -1,9 +1,14 @@
 # Classes
 class List
+
+	attr_reader :all_tasks
+
 	def initialize
+		@all_tasks = []
 	end
 
-	def add_task
+	def add_task(task)
+		@all_tasks << task
 	end
 
 	def show_list
@@ -25,7 +30,11 @@ end
 
 
 class Task
-	def initialize
+
+	attr_reader :description
+
+	def initialize(description)
+		@description = description
 	end
 
 end
@@ -36,4 +45,7 @@ end
 if __FILE__ == $PROGRAM_NAME
 	my_list = List.new
 	puts 'You have created a new list'
+
+	my_list.add_task(Task.new("Go to work."))
+	puts 'You have added a new task'
 end
