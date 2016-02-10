@@ -5,6 +5,7 @@ module Menu
 	(A) Add a task
 	(S) Show your ToDo list
 	(W) Write ToDo list to file
+	(R) Read ToDo list from a file
 	(Q) Quit"
 	end
 
@@ -39,7 +40,9 @@ class List
 		@all_tasks.each { |task| puts task.description }
 	end
 
-	def read_task_from_file
+	def read_list_from_file(filename)
+		lines = IO.readlines(filename)
+		lines.each { |l| @all_tasks << Task.new(l) }
 	end
 
 	def write_list_to_file(filename)
@@ -91,6 +94,8 @@ if __FILE__ == $PROGRAM_NAME
  				my_list.show_list
 			when 'w'
 				my_list.write_list_to_file(prompt("What is the file that you want to write to?"))
+			when 'r'
+				my_list.read_list_from_file(prompt("What is the file that you want to read from?"))
 			else
 				puts "Sorry I don't know that option"
 		end
