@@ -4,8 +4,8 @@ module Menu
 		puts "Please choose from the following list:
 	(A) Add a task
 	(S) Show your ToDo list
-	(Q) Quit
-		"
+	(W) Write ToDo list to file
+	(Q) Quit"
 	end
 
 	def show
@@ -39,10 +39,11 @@ class List
 		@all_tasks.each { |task| puts task.description }
 	end
 
-	def read_tast_from_file
+	def read_task_from_file
 	end
 
-	def write_list_to_file
+	def write_list_to_file(filename)
+		IO.write(filename, @all_tasks.map(&:to_s).join("\n"))
 	end
 
 	def delete_task
@@ -50,7 +51,6 @@ class List
 
 	def update_task
 	end
-
 end
 
 
@@ -60,6 +60,10 @@ class Task
 
 	def initialize(description)
 		@description = description
+	end
+
+	def to_s
+		@description
 	end
 
 end
@@ -85,6 +89,8 @@ if __FILE__ == $PROGRAM_NAME
 				my_list.add_task(Task.new(prompt('What is the task you would like to add?')))
 			when 's'
  				my_list.show_list
+			when 'w'
+				my_list.write_list_to_file(prompt("What is the file that you want to write to?"))
 			else
 				puts "Sorry I don't know that option"
 		end
