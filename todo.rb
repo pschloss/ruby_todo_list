@@ -44,11 +44,16 @@ class List
 
 	def read_list_from_file(filename)
 		lines = IO.readlines(filename)
-		lines.each { |l| @all_tasks << Task.new(l) }
+		lines.each do |l|
+			line_array = l.strip.split(" : ")
+			completed = line_array[0] == "[X]" ? true : false
+			@all_tasks << Task.new(line_array[1], completed)
+		end
 	end
 
 	def write_list_to_file(filename)
-		IO.write(filename, @all_tasks.map(&:to_s).join("\n"))
+		machinified = @all_tasks.map(&:to_machine).join("\n")
+		IO.write(filename, machinified)
 	end
 
 	def delete_task(task_number)
@@ -64,15 +69,29 @@ end
 class Task
 
 	attr_reader :description
+	attr_accessor :status
 
-	def initialize(description)
+	def initialize(description, status=false)
 		@description = description
+		@status = status
 	end
 
 	def to_s
 		@description
 	end
 
+	def completed?
+		@status
+	end
+
+	def to_machine
+		"#{represent_status} : #{to_s}"
+	end
+
+	private
+	def represent_status
+		"#{completed? ? '[X]' : '[ ]'}"
+	end
 end
 
 
