@@ -7,6 +7,7 @@ module Menu
 	(W) Write ToDo list to file
 	(R) Read ToDo list from a file
 	(D) Delete a ToDo item from list
+	(U) Update an item from the ToDo list
 	(Q) Quit"
 	end
 
@@ -50,11 +51,12 @@ class List
 		IO.write(filename, @all_tasks.map(&:to_s).join("\n"))
 	end
 
-	def delete_task(task)
-		@all_tasks.delete_at(task-1)
+	def delete_task(task_number)
+		@all_tasks.delete_at(task_number-1)
 	end
 
-	def update_task
+	def update_task(task_number, new_task)
+		@all_tasks[task_number-1] = Task.new(new_task)
 	end
 end
 
@@ -100,6 +102,10 @@ if __FILE__ == $PROGRAM_NAME
 				my_list.read_list_from_file(prompt("What is the file that you want to read from?"))
 			when 'd'
 				my_list.delete_task(prompt("Which task number would you like to delete?").to_i)
+			when 'u'
+				task_number = prompt("Which task number would you like to delete?").to_i
+				new_task = prompt("What should the task be?")
+				my_list.update_task(task_number, new_task)
 			else
 				puts "Sorry I don't know that option"
 		end
