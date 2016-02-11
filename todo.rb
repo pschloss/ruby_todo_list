@@ -8,6 +8,7 @@ module Menu
 	(R) Read ToDo list from a file
 	(D) Delete a ToDo item from list
 	(U) Update an item from the ToDo list
+	(T) Toggle whether a task is completed
 	(Q) Quit"
 	end
 
@@ -63,6 +64,11 @@ class List
 	def update_task(task_number, new_task)
 		@all_tasks[task_number-1] = Task.new(new_task)
 	end
+
+	def toggle_task(task_number)
+		@all_tasks[task_number-1].status = !@all_tasks[task_number-1].completed?
+	end
+
 end
 
 
@@ -125,6 +131,8 @@ if __FILE__ == $PROGRAM_NAME
 				task_number = prompt("Which task number would you like to delete?").to_i
 				new_task = prompt("What should the task be?")
 				my_list.update_task(task_number, new_task)
+			when 't'
+				my_list.toggle_task(prompt("Which task number would you like to toggle?").to_i)
 			else
 				puts "Sorry I don't know that option"
 		end
