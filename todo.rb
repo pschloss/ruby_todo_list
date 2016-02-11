@@ -6,6 +6,7 @@ module Menu
 	(S) Show your ToDo list
 	(W) Write ToDo list to file
 	(R) Read ToDo list from a file
+	(D) Delete a ToDo item from list
 	(Q) Quit"
 	end
 
@@ -37,7 +38,7 @@ class List
 	end
 
 	def show_list
-		@all_tasks.each { |task| puts task.description }
+		@all_tasks.each_with_index { |task, index| puts "#{index+1} #{task.description}" }
 	end
 
 	def read_list_from_file(filename)
@@ -49,7 +50,8 @@ class List
 		IO.write(filename, @all_tasks.map(&:to_s).join("\n"))
 	end
 
-	def delete_task
+	def delete_task(task)
+		@all_tasks.delete_at(task-1)
 	end
 
 	def update_task
@@ -96,6 +98,8 @@ if __FILE__ == $PROGRAM_NAME
 				my_list.write_list_to_file(prompt("What is the file that you want to write to?"))
 			when 'r'
 				my_list.read_list_from_file(prompt("What is the file that you want to read from?"))
+			when 'd'
+				my_list.delete_task(prompt("Which task number would you like to delete?").to_i)
 			else
 				puts "Sorry I don't know that option"
 		end
